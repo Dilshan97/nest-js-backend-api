@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { Product } from './interfaces/product.interface';
+import { Inject, Injectable } from '@nestjs/common';
+import { IProduct, IProductModel } from './interfaces/product.interface';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ProductService {
-  private readonly products: Product[] = [
+  constructor(
+    @Inject('PRODUCT_MODEL')
+    private readonly productModel: Model<IProductModel>,
+  ) {}
+
+  private readonly products: IProduct[] = [
     {
       name: 'product 1',
       description: 'description 1',
@@ -18,11 +24,11 @@ export class ProductService {
     },
   ];
 
-  save(product: Product) {
-    this.products.push(product);
+  async save(product: IProduct): Promise<IProductModel> {
+    return this.productModel.create(product);
   }
 
-  findAll(): Product[] {
+  findAll(): IProduct[] {
     return this.products;
   }
 }

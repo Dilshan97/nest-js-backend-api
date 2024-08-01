@@ -1,12 +1,12 @@
 import { Controller, Delete, Get, HttpCode, Post, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product } from './interfaces/product.interface';
+import { IProduct } from './interfaces/product.interface';
 
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
   @Get()
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<IProduct[]> {
     return this.productService.findAll();
   }
   @Post()
